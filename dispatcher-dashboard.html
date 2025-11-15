@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель диспетчера - Аварийная служба Водоканала</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="page">
+        <nav class="navbar">
+            <div class="container nav-container">
+                <div class="logo">
+                    <img src="./images/logot.png" alt=""> <P>МУП «Водоканал» Сергиев Посад</P>
+                </div>
+                <div class="nav-links">
+                    <a href="dispatcher-dashboard.html">Дашборд</a>
+                    <a href="brigade-management.html">Управление бригадами</a>
+                    <a href="chat.html">💬 Чат с пользователями</a>
+                    <a href="reports.html">Отчеты</a>
+                    <a href="#" onclick="logout()">Выйти</a>
+                </div>
+                <div class="burger-menu" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="mobile-menu">
+                <a href="dispatcher-dashboard.html">Дашборд</a>
+                <a href="brigade-management.html">Управление бригадами</a>
+                <a href="chat.html">💬 Чат с пользователями</a>
+                <a href="reports.html">Отчеты</a>
+                <a href="#" onclick="logout()">Выйти</a>
+            </div>
+        </nav>
+        
+        <div class="dashboard container">
+            <h1>Панель управления диспетчера</h1>
+            
+            <div class="dashboard-grid">
+                <div class="widget">
+                    <h3>Входящие заявки</h3>
+                    <div id="incoming-applications">
+                    </div>
+                </div>
+                
+                <div class="widget">
+                    <h3>Критические заявки</h3>
+                    <div id="critical-applications">
+                    </div>
+                </div>
+                
+                <div class="widget">
+                    <h3>Статусы бригад</h3>
+                    <div id="brigade-statuses">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>Все активные заявки</h3>
+                <div id="all-applications">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="application-detail-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeApplicationDetail()">&times;</span>
+            <h2>Детали заявки №<span id="detail-application-id"></span></h2>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="application-progress-bar" style="width: 0%">0%</div>
+            </div>
+
+            <div class="progress-steps">
+                <div class="progress-step">
+                    <div class="step-circle" id="step-1-circle">1</div>
+                    <div class="step-label">Подана</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle" id="step-2-circle">2</div>
+                    <div class="step-label">Назначена</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle" id="step-3-circle">3</div>
+                    <div class="step-label">В работе</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-circle" id="step-4-circle">4</div>
+                    <div class="step-label">Выполнена</div>
+                </div>
+            </div>
+
+            <div class="application-details">
+                <div class="detail-section">
+                    <h4>Основная информация</h4>
+                    <p><strong>Тип аварии:</strong> <span id="detail-type"></span></p>
+                    <p><strong>Приоритет:</strong> <span id="detail-priority"></span></p>
+                    <p><strong>Статус:</strong> <span id="detail-status"></span></p>
+                    <p><strong>Дата подачи:</strong> <span id="detail-created"></span></p>
+                </div>
+
+                <div class="detail-section">
+                    <h4>Контактные данные</h4>
+                    <p><strong>ФИО:</strong> <span id="detail-fio"></span></p>
+                    <p><strong>Телефон:</strong> <span id="detail-phone"></span></p>
+                    <p><strong>Email:</strong> <span id="detail-email"></span></p>
+                </div>
+
+                <div class="detail-section" style="grid-column: 1 / -1;">
+                    <h4>Адрес и описание</h4>
+                    <p><strong>Адрес:</strong> <span id="detail-address"></span></p>
+                    <p><strong>Описание проблемы:</strong></p>
+                    <p id="detail-description"></p>
+                </div>
+
+                <div class="detail-section" style="grid-column: 1 / -1;">
+                    <h4>Назначенная бригада</h4>
+                    <p id="detail-brigade">Не назначена</p>
+                    <p id="detail-brigade-contacts"></p>
+                </div>
+            </div>
+
+            <div class="detail-section" style="grid-column: 1 / -1;">
+                <h4>Прикрепленные фотографии</h4>
+                <div id="detail-photos" class="photo-gallery">
+                </div>
+            </div>
+
+            <div class="detail-section" style="grid-column: 1 / -1;">
+                <h4>Местоположение</h4>
+                <div class="map-container">
+                    <div id="application-map"></div>
+                </div>
+            </div>
+
+            <div class="detail-section" style="grid-column: 1 / -1;">
+                <h4>Чат с пользователем</h4>
+                <div class="chat-container" style="height: 300px;">
+                    <div class="chat-messages" id="application-chat-messages">
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="application-message-input" placeholder="Введите сообщение...">
+                        <button class="btn" onclick="sendApplicationMessage()">Отправить</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <h4>История статусов</h4>
+                <div id="detail-timeline">
+                </div>
+            </div>
+
+            <div class="application-actions">
+                <button class="btn btn-warning" onclick="updateApplicationStatus()">✏️ Обновить статус</button>
+                <button class="btn btn-danger" onclick="closeApplicationDetail()">❌ Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/utils.js"></script>
+    <script src="./js/dispatcher.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./js/maps.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDispatcherData();
+        });
+    </script>
+</body>
+</html>

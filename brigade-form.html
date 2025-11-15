@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавление бригады - Аварийная служба Водоканала</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="page">
+        <nav class="navbar">
+            <div class="container nav-container">
+                <div class="logo">
+                    <img src="./images/logot.png" alt=""> <P>МУП «Водоканал» Сергиев Посад</P>
+                </div>
+                <div class="nav-links">
+                    <a href="brigade-management.html">← Назад к списку</a>
+                    <a href="#" onclick="logout()">Выйти</a>
+                </div>
+                <div class="burger-menu" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="mobile-menu">
+                <a href="brigade-management.html">← Назад к списку</a>
+                <a href="#" onclick="logout()">Выйти</a>
+            </div>
+        </nav>
+        
+        <div class="container" style="padding: 40px 0;">
+            <h1 id="brigade-form-title">Добавление бригады</h1>
+            
+            <div class="card">
+                <form id="brigade-form" class="brigade-form">
+                    <input type="hidden" id="brigade-id">
+                    
+                    <div class="form-group">
+                        <label for="brigade-name">Название бригады</label>
+                        <input type="text" id="brigade-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Состав бригады</label>
+                        <div class="members-input">
+                            <input type="text" id="member-input" placeholder="Введите ФИО члена бригады">
+                            <button type="button" class="btn btn-small" onclick="addMember()">Добавить</button>
+                        </div>
+                        <div class="members-list" id="members-list"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="brigade-contacts">Контактные данные</label>
+                        <input type="text" id="brigade-contacts" required placeholder="Телефон для связи">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="brigade-qualification">Квалификация</label>
+                        <select id="brigade-qualification" required>
+                            <option value="">Выберите квалификацию</option>
+                            <option value="Высшая категория">Высшая категория</option>
+                            <option value="Первая категория">Первая категория</option>
+                            <option value="Вторая категория">Вторая категория</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="brigade-specialization">Специализация</label>
+                        <input type="text" id="brigade-specialization" required placeholder="Например: Водопроводные сети">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="brigade-status">Статус бригады</label>
+                        <select id="brigade-status" required>
+                            <option value="free">Свободна</option>
+                            <option value="busy">Занята</option>
+                            <option value="on-way">В пути</option>
+                            <option value="on-site">На объекте</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="brigade-location">Местоположение</label>
+                        <input type="text" id="brigade-location" placeholder="Введите адрес для карты">
+                        <div class="map-container">
+                            <div id="brigade-map"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-navigation">
+                        <a href="brigade-management.html" class="btn">Отмена</a>
+                        <button type="submit" class="btn btn-secondary">Сохранить бригаду</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/utils.js"></script>
+    <script src="./js/brigade.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Если мы на странице формы, инициализируем ее
+            if (document.getElementById('brigade-form')) {
+                // Если нет данных для редактирования, это новая бригада
+                const editingBrigadeId = sessionStorage.getItem('editingBrigadeId');
+                if (!editingBrigadeId) {
+                    // Устанавливаем заголовок для новой бригады
+                    document.getElementById('brigade-form-title').textContent = 'Добавление бригады';
+                    // Очищаем форму
+                    document.getElementById('brigade-id').value = '';
+                    document.getElementById('brigade-name').value = '';
+                    document.getElementById('brigade-contacts').value = '';
+                    document.getElementById('brigade-qualification').value = '';
+                    document.getElementById('brigade-specialization').value = '';
+                    document.getElementById('brigade-status').value = 'free';
+                    document.getElementById('brigade-location').value = '';
+                    document.getElementById('members-list').innerHTML = '';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

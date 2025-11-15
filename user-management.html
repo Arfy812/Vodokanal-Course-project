@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление пользователями - Аварийная служба Водоканала</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <!-- Управление пользователями -->
+    <div class="page">
+        <nav class="navbar">
+            <div class="container nav-container">
+                <div class="logo">
+                    <img src="./images/logot.png" alt=""> <P>МУП «Водоканал» Сергиев Посад</P>
+                </div>
+                <div class="nav-links">
+                    <a href="admin-dashboard.html">Дашборд</a>
+                    <a href="user-management.html">Управление пользователями</a>
+                    <a href="system-settings.html">Настройки системы</a>
+                    <a href="#" onclick="logout()">Выйти</a>
+                </div>
+                <div class="burger-menu" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="mobile-menu">
+                <a href="admin-dashboard.html">Дашборд</a>
+                <a href="user-management.html">Управление пользователями</a>
+                <a href="system-settings.html">Настройки системы</a>
+                <a href="#" onclick="logout()">Выйти</a>
+            </div>
+        </nav>
+        
+        <div class="container" style="padding: 40px 0;">
+            <h1>Управление пользователями</h1>
+            
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2>Список пользователей</h2>
+                    <button class="btn" onclick="showAddUserForm()">Добавить пользователя</button>
+                </div>
+                
+                <div class="filters" style="margin-bottom: 20px;">
+                    <input type="text" id="user-search" placeholder="Поиск пользователей..." style="width: 100%; padding: 10px;" oninput="filterUsers()">
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <select id="role-filter" onchange="filterUsers()" style="padding: 8px;">
+                            <option value="">Все роли</option>
+                            <option value="admin">Администратор</option>
+                            <option value="dispatcher">Диспетчер</option>
+                            <option value="user">Пользователь</option>
+                        </select>
+                        <select id="status-filter" onchange="filterUsers()" style="padding: 8px;">
+                            <option value="">Все статусы</option>
+                            <option value="active">Активные</option>
+                            <option value="inactive">Неактивные</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="user-list">
+                    <!-- Список пользователей будет загружаться здесь -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно добавления/редактирования пользователя -->
+    <div id="user-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeUserModal()">&times;</span>
+            <h2 id="user-modal-title">Добавление пользователя</h2>
+            
+            <form id="user-form">
+                <input type="hidden" id="user-id">
+                
+                <div class="form-group">
+                    <label for="user-fio">ФИО</label>
+                    <input type="text" id="user-fio" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="user-username">Логин</label>
+                    <input type="text" id="user-username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="user-password">Пароль</label>
+                    <input type="password" id="user-password">
+                    <small>Оставьте пустым, если не хотите менять пароль</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="user-role">Роль</label>
+                    <select id="user-role" required>
+                        <option value="user">Пользователь</option>
+                        <option value="dispatcher">Диспетчер</option>
+                        <option value="admin">Администратор</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="user-phone">Телефон</label>
+                    <input type="tel" id="user-phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="user-email">Email</label>
+                    <input type="email" id="user-email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="user-status">Статус</label>
+                    <select id="user-status" required>
+                        <option value="active">Активный</option>
+                        <option value="inactive">Неактивный</option>
+                    </select>
+                </div>
+                
+                <div class="form-navigation">
+                    <button type="button" class="btn" onclick="closeUserModal()">Отмена</button>
+                    <button type="submit" class="btn btn-secondary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="./js/utils.js"></script>
+    <script src="./js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserManagement();
+        });
+    </script>
+</body>
+</html> 

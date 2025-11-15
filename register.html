@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация - Аварийная служба Водоканала</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="page">
+        <nav class="navbar">
+            <div class="container nav-container">
+                <div class="logo">
+                    <img src="./images/logot.png" alt=""> <P>МУП «Водоканал» Сергиев Посад</P>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html">Главная</a>
+                </div>
+                <div class="burger-menu" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="mobile-menu">
+                <a href="index.html">Главная</a>
+            </div>
+        </nav>
+        
+        <div class="container" style="padding: 40px 0; max-width: 500px;">
+            <div class="card">
+                <h2 style="text-align: center;">Регистрация</h2>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="register-fio">ФИО</label>
+                        <input type="text" id="register-fio" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-phone">Телефон</label>
+                        <input type="tel" id="register-phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-username">Логин</label>
+                        <input type="text" id="register-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Пароль</label>
+                        <input type="password" id="register-password" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn" style="width: 100%;">Зарегистрироваться</button>
+                    </div>
+                    <div style="text-align: center;">
+                        <p>Уже есть аккаунт? <a href="login.html">Войти</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/utils.js"></script>
+    <script src="./js/auth.js"></script>
+</body>
+</html>

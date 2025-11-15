@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Настройки системы - Аварийная служба Водоканала</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <!-- Настройки системы -->
+    <div class="page">
+        <nav class="navbar">
+            <div class="container nav-container">
+                <div class="logo">
+                    <img src="./images/logot.png" alt=""> <P>МУП «Водоканал» Сергиев Посад</P>
+                </div>
+                <div class="nav-links">
+                    <a href="admin-dashboard.html">Дашборд</a>
+                    <a href="user-management.html">Управление пользователями</a>
+                    <a href="system-settings.html">Настройки системы</a>
+                    <a href="#" onclick="logout()">Выйти</a>
+                </div>
+                <div class="burger-menu" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="mobile-menu">
+                <a href="admin-dashboard.html">Дашборд</a>
+                <a href="user-management.html">Управление пользователями</a>
+                <a href="system-settings.html">Настройки системы</a>
+                <a href="#" onclick="logout()">Выйти</a>
+            </div>
+        </nav>
+        
+        <div class="container" style="padding: 40px 0;">
+            <h1>Настройки системы</h1>
+            
+            <div class="card">
+                <h2>Основные настройки</h2>
+                <form id="system-settings-form">
+                    <div class="form-group">
+                        <label for="system-name">Название системы</label>
+                        <input type="text" id="system-name" value="МУП «Водоканал» Сергиев Посад" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="system-email">Email для уведомлений</label>
+                        <input type="email" id="system-email" value="notifications@spvodokanal.ru">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="system-phone">Контактный телефон</label>
+                        <input type="tel" id="system-phone" value="+7 (496) 540-00-00" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="auto-assign">Автоназначение бригад</label>
+                        <select id="auto-assign">
+                            <option value="enabled">Включено</option>
+                            <option value="disabled" selected>Отключено</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notification-time">Время уведомлений (минуты)</label>
+                        <input type="number" id="notification-time" value="30" min="5" max="120">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="backup-interval">Интервал резервного копирования (дни)</label>
+                        <input type="number" id="backup-interval" value="7" min="1" max="30">
+                    </div>
+                    
+                    <button type="submit" class="btn">Сохранить настройки</button>
+                </form>
+            </div>
+            
+            <div class="card">
+                <h2>Справочники</h2>
+                <div id="reference-books">
+                    <div class="reference-section">
+                        <h3>Типы аварий</h3>
+                        <div id="emergency-types-list" class="reference-list">
+                            <!-- Список типов аварий -->
+                        </div>
+                        <button class="btn btn-small" onclick="addEmergencyType()">Добавить тип</button>
+                    </div>
+                    
+                    <div class="reference-section">
+                        <h3>Квалификации бригад</h3>
+                        <div id="qualifications-list" class="reference-list">
+                            <!-- Список квалификаций -->
+                        </div>
+                        <button class="btn btn-small" onclick="addQualification()">Добавить квалификацию</button>
+                    </div>
+                    
+                    <div class="reference-section">
+                        <h3>Статусы заявок</h3>
+                        <div id="statuses-list" class="reference-list">
+                            <!-- Список статусов -->
+                        </div>
+                        <button class="btn btn-small" onclick="addStatus()">Добавить статус</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Системные операции</h2>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <button class="btn" onclick="createBackup()">Создать резервную копию</button>
+                    <button class="btn" onclick="clearCache()">Очистить кэш</button>
+                    <button class="btn btn-danger" onclick="resetSystem()">Сбросить систему</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Логи системы</h2>
+                <div id="system-logs" style="max-height: 300px; overflow-y: auto; background: #f5f5f5; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 12px;">
+                    <!-- Логи будут отображаться здесь -->
+                </div>
+                <button class="btn" style="margin-top: 10px;" onclick="loadSystemLogs()">Обновить логи</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для справочников -->
+    <div id="reference-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeReferenceModal()">&times;</span>
+            <h2 id="reference-modal-title">Добавление элемента</h2>
+            
+            <form id="reference-form">
+                <input type="hidden" id="reference-type">
+                <input type="hidden" id="reference-id">
+                
+                <div class="form-group">
+                    <label for="reference-name">Название</label>
+                    <input type="text" id="reference-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reference-description">Описание</label>
+                    <textarea id="reference-description"></textarea>
+                </div>
+                
+                <div class="form-group" id="priority-field" style="display: none;">
+                    <label for="reference-priority">Приоритет</label>
+                    <select id="reference-priority">
+                        <option value="low">Низкий</option>
+                        <option value="medium">Средний</option>
+                        <option value="high">Высокий</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="icon-field" style="display: none;">
+                    <label for="reference-icon">Иконка</label>
+                    <input type="text" id="reference-icon" placeholder="💥">
+                </div>
+                
+                <div class="form-navigation">
+                    <button type="button" class="btn" onclick="closeReferenceModal()">Отмена</button>
+                    <button type="submit" class="btn btn-secondary">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="./js/utils.js"></script>
+    <script src="./js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSystemSettings();
+        });
+    </script>
+</body>
+</html>

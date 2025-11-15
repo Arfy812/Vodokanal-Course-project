@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чат с пользователями - Аварийная служба Водоканала</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="page">
+        <nav class="navbar">
+            <div class="container nav-container">
+                <div class="logo">
+                    <img src="./images/logot.png" alt=""> <P>МУП «Водоканал» Сергиев Посад</P>
+                </div>
+                <div class="nav-links">
+                    <a href="dispatcher-dashboard.html">Дашборд</a>
+                    <a href="brigade-management.html">Управление бригадами</a>
+                    <a href="chat.html">💬 Чат с пользователями</a>
+                    <a href="reports.html">Отчеты</a>
+                    <a href="#" onclick="logout()">Выйти</a>
+                </div>
+                <div class="burger-menu" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="mobile-menu">
+                <a href="dispatcher-dashboard.html">Дашборд</a>
+                <a href="brigade-management.html">Управление бригадами</a>
+                <a href="chat.html">💬 Чат с пользователями</a>
+                <a href="reports.html">Отчеты</a>
+                <a href="#" onclick="logout()">Выйти</a>
+            </div>
+        </nav>
+        
+        <div class="container" style="padding: 40px 0;">
+            <h1>Чат с пользователями</h1>
+            
+            <div class="card">
+                <div class="chat-layout">
+                    <div class="chat-list-container">
+                        <h3>Активные чаты</h3>
+                        <div id="chat-list" class="chat-list">
+                        </div>
+                    </div>
+                    
+                    <div class="chat-window">
+                        <div id="current-chat-header" class="chat-header">
+                            <h4>Выберите чат для общения</h4>
+                        </div>
+                        
+                        <div class="chat-container">
+                            <div class="chat-messages" id="chat-messages">
+                                <div class="no-chat-selected">
+                                    Выберите чат для начала общения
+                                </div>
+                            </div>
+                            
+                            <div class="chat-input">
+                                <input type="text" id="message-input" placeholder="Введите сообщение..." disabled>
+                                <button class="btn" id="send-message" onclick="sendMessage()" disabled>Отправить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/utils.js"></script>
+    <script src="./js/chat.js"></script>
+</body>
+</html>

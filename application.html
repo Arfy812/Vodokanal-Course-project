@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подача заявки - Аварийная служба Водоканала</title>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=test&lang=ru_RU" type="text/javascript"></script>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="page">
+        <nav class="navbar">
+            <div class="container nav-container">
+                <div class="logo">
+                    <img src="./images/logot.png" alt=""> <P>МУП «Водоканал» Сергиев Посад</P>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html">Главная</a>
+                    <a href="user-profile.html">Личный кабинет</a>
+                    <a href="#" onclick="logout()">Выйти</a>
+                </div>
+                <div class="burger-menu" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="mobile-menu">
+                <a href="index.html">Главная</a>
+                <a href="user-profile.html">Личный кабинет</a>
+                <a href="#" onclick="logout()">Выйти</a>
+            </div>
+        </nav>
+        
+        <div class="container" style="padding: 40px 0;">
+            <div class="step-form">
+                <div class="card">
+                    <h2 style="text-align: center;">Подача заявки</h2>
+                    
+                    <div id="step-1" class="step active">
+                        <h3>Тип аварии</h3>
+                        <p>Выберите тип аварии из предложенных вариантов</p>
+                        
+                        <div class="emergency-types">
+                            <div class="emergency-type" data-type="pipe-burst">
+                                <div class="emergency-icon">💥</div>
+                                <div>Прорыв трубы</div>
+                            </div>
+                            <div class="emergency-type" data-type="no-water">
+                                <div class="emergency-icon">🚱</div>
+                                <div>Нет воды</div>
+                            </div>
+                            <div class="emergency-type" data-type="bad-quality">
+                                <div class="emergency-icon">🌊</div>
+                                <div>Плохое качество воды</div>
+                            </div>
+                            <div class="emergency-type" data-type="clog">
+                                <div class="emergency-icon">🚽</div>
+                                <div>Засор</div>
+                            </div>
+                            <div class="emergency-type" data-type="leak">
+                                <div class="emergency-icon">💧</div>
+                                <div>Протечка</div>
+                            </div>
+                            <div class="emergency-type" data-type="other">
+                                <div class="emergency-icon">❓</div>
+                                <div>Другое</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-navigation">
+                            <a href="user-profile.html" class="btn">Отмена</a>
+                            <button class="btn" onclick="nextStep(2)">Далее</button>
+                        </div>
+                    </div>
+                    
+                    <div id="step-2" class="step">
+                        <h3>Адрес аварии</h3>
+                        <p>Укажите точный адрес места аварии</p>
+                        
+                        <div class="form-group">
+                            <label for="address">Адрес</label>
+                            <input type="text" id="address" placeholder="Начните вводить адрес..." oninput="searchAddress(this.value)">
+                            <div id="address-suggestions" style="display: none; border: 1px solid #ccc; max-height: 150px; overflow-y: auto; background: white;"></div>
+                        </div>
+
+                        <div class="map-container">
+                            <div id="address-map"></div>
+                        </div>
+                        
+                        <div class="form-navigation">
+                            <button class="btn" onclick="prevStep(1)">Назад</button>
+                            <button class="btn" onclick="nextStep(3)">Далее</button>
+                        </div>
+                    </div>
+                    
+                    <div id="step-3" class="step">
+                        <h3>Контактные данные</h3>
+                        <p>Укажите ваши контактные данные для связи</p>
+                        
+                        <div class="form-group">
+                            <label for="contact-fio">ФИО</label>
+                            <input type="text" id="contact-fio" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contact-phone">Телефон</label>
+                            <input type="tel" id="contact-phone" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contact-email">Email (необязательно)</label>
+                            <input type="email" id="contact-email">
+                        </div>
+                        
+                        <div class="form-navigation">
+                            <button class="btn" onclick="prevStep(2)">Назад</button>
+                            <button class="btn" onclick="nextStep(4)">Далее</button>
+                        </div>
+                    </div>
+                    
+                    <div id="step-4" class="step">
+                        <h3>Детали проблемы</h3>
+                        <p>Опишите подробно проблему и при необходимости прикрепите фото или видео</p>
+                        
+                        <div class="form-group">
+                            <label for="problem-description">Подробное описание проблемы</label>
+                            <textarea id="problem-description" placeholder="Опишите проблему подробно..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="file-upload">Прикрепить фото/видео (до 5 файлов)</label>
+                            <input type="file" id="file-upload" multiple accept="image/*,video/*" onchange="previewFiles(this.files)">
+                            <div id="file-preview" class="photo-gallery"></div>
+                        </div>
+                        
+                        <div class="form-navigation">
+                            <button class="btn" onclick="prevStep(3)">Назад</button>
+                            <button class="btn" onclick="nextStep(5)">Далее</button>
+                        </div>
+                    </div>
+                    
+                    <div id="step-5" class="step">
+                        <h3>Подтверждение заявки</h3>
+                        <p>Проверьте правильность введенных данных перед отправкой</p>
+                        
+                        <div class="card">
+                            <h4>Сводка заявки</h4>
+                            <div id="application-summary"></div>
+                            <div id="photos-summary"></div>
+                        </div>
+                        
+                        <div class="form-navigation">
+                            <button class="btn" onclick="prevStep(4)">Назад</button>
+                            <button class="btn" onclick="submitApplication()">Отправить заявку</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/utils.js"></script>
+    <script src="./js/application.js"></script>
+    <script src="./js/maps.js"></script>
+    <script>
+        // Инициализация карты при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(initAddressMap, 100);
+        });
+    </script>
+</body>
+</html>

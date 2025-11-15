@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ панель - Аварийная служба Водоканала</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <!-- Административный интерфейс -->
+    <div class="page">
+        <nav class="navbar">
+            <div class="container nav-container">
+                <div class="logo">
+                    <img src="./images/logot.png" alt=""> <P>МУП «Водоканал» Сергиев Посад</P>
+                </div>
+                <div class="nav-links">
+                    <a href="admin-dashboard.html">Дашборд</a>
+                    <a href="user-management.html">Управление пользователями</a>
+                    <a href="system-settings.html">Настройки системы</a>
+                    <a href="#" onclick="logout()">Выйти</a>
+                </div>
+                <div class="burger-menu" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="mobile-menu">
+                <a href="admin-dashboard.html">Дашборд</a>
+                <a href="user-management.html">Управление пользователями</a>
+                <a href="system-settings.html">Настройки системы</a>
+                <a href="#" onclick="logout()">Выйти</a>
+            </div>
+        </nav>
+        
+        <div class="container" style="padding: 40px 0;">
+            <h1>Административная панель</h1>
+            
+            <div class="dashboard-grid">
+                <div class="widget">
+                    <h3>Статистика системы</h3>
+                    <div id="system-stats">
+                    </div>
+                </div>
+                
+                <div class="widget">
+                    <h3>Последние действия</h3>
+                    <div id="recent-actions">
+                    </div>
+                </div>
+
+                <div class="widget">
+                    <h3>Быстрые действия</h3>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <a href="user-management.html" class="btn">Управление пользователями</a>
+                        <a href="system-settings.html" class="btn">Настройки системы</a>
+                        <button class="btn" onclick="generateSystemReport()">Сформировать отчет</button>
+                        <button class="btn btn-danger" onclick="clearOldData()">Очистить старые данные</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Обзор системы</h2>
+                <div class="dashboard-grid">
+                    <div class="widget">
+                        <h4>Пользователи</h4>
+                        <div id="users-overview">
+                        </div>
+                    </div>
+                    <div class="widget">
+                        <h4>Заявки</h4>
+                        <div id="applications-overview">
+                        </div>
+                    </div>
+                    <div class="widget">
+                        <h4>Бригады</h4>
+                        <div id="brigades-overview">
+                            <!-- Обзор бригад -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/utils.js"></script>
+    <script src="./js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAdminDashboard();
+        });
+    </script>
+</body>
+</html>

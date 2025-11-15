@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление бригадами - Аварийная служба Водоканала</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <!-- Управление бригадами -->
+    <div class="page">
+        <nav class="navbar">
+            <div class="container nav-container">
+                <div class="logo">
+                    <img src="./images/logot.png" alt=""> <P>МУП «Водоканал» Сергиев Посад</P>
+                </div>
+                <div class="nav-links">
+                    <a href="dispatcher-dashboard.html">Дашборд</a>
+                    <a href="brigade-management.html">Управление бригадами</a>
+                    <a href="chat.html">💬 Чат с пользователями</a>
+                    <a href="reports.html">Отчеты</a>
+                    <a href="#" onclick="logout()">Выйти</a>
+                </div>
+                <div class="burger-menu" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="mobile-menu">
+                <a href="dispatcher-dashboard.html">Дашборд</a>
+                <a href="brigade-management.html">Управление бригадами</a>
+                <a href="chat.html">💬 Чат с пользователями</a>
+                <a href="reports.html">Отчеты</a>
+                <a href="#" onclick="logout()">Выйти</a>
+            </div>
+        </nav>
+        
+        <div class="container" style="padding: 40px 0;">
+            <h1>Управление бригадами</h1>
+            
+            <div class="card">
+                <h2>Список бригад</h2>
+                <button class="btn" style="margin-bottom: 20px;" onclick="showBrigadeForm()">Добавить бригаду</button>
+                <div id="brigade-list">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="brigade-modal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <span class="close" onclick="closeBrigadeModal()">&times;</span>
+            <h2 id="brigade-modal-title">Добавление бригады</h2>
+            
+            <form id="brigade-form">
+                <input type="hidden" id="brigade-id" value="">
+                
+                <div class="form-group">
+                    <label for="brigade-name">Название бригады *</label>
+                    <input type="text" id="brigade-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="brigade-specialization">Специализация *</label>
+                    <select id="brigade-specialization" required>
+                        <option value="">Выберите специализацию</option>
+                        <option value="Водопровод">Водопровод</option>
+                        <option value="Канализация">Канализация</option>
+                        <option value="Электрика">Электрика</option>
+                        <option value="Общие работы">Общие работы</option>
+                        <option value="Экстренные работы">Экстренные работы</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="brigade-qualification">Квалификация *</label>
+                    <select id="brigade-qualification" required>
+                        <option value="">Выберите квалификацию</option>
+                        <option value="Высшая">Высшая</option>
+                        <option value="Средняя">Средняя</option>
+                        <option value="Базовая">Базовая</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="brigade-status">Статус *</label>
+                    <select id="brigade-status" required>
+                        <option value="free">Свободна</option>
+                        <option value="busy">Занята</option>
+                        <option value="on-way">В пути</option>
+                        <option value="on-site">На объекте</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="brigade-contacts">Контакты *</label>
+                    <input type="text" id="brigade-contacts" placeholder="Телефон, email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="brigade-location">Местоположение</label>
+                    <input type="text" id="brigade-location" placeholder="Текущее местоположение">
+                </div>
+                
+                <div class="form-group">
+                    <label>Состав бригады *</label>
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                        <input type="text" id="member-input" placeholder="ФИО члена бригады" style="flex: 1;">
+                        <button type="button" class="btn" onclick="addMember()">Добавить</button>
+                    </div>
+                    <div id="members-list" class="members-container"></div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn">Сохранить</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeBrigadeModal()">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="./js/utils.js"></script>
+    <script src="./js/brigade.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBrigadeList();
+        });
+    </script>
+</body>
+</html>
